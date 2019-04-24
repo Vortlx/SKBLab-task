@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Iterable<User> findAll(Integer id);
+    Iterable<User> findAll();
 
     Optional<User> findById(Integer id);
 

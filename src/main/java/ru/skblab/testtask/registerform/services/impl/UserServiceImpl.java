@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Iterable<User> findAll(Integer id) {
+    public Iterable<User> findAll() {
         return userDAO.findAll();
     }
 

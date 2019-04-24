@@ -2,6 +2,10 @@ package ru.skblab.testtask.registerform.entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -12,13 +16,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotEmpty
+    @Size(min=6, max = 255)
+    @Column(name="login", nullable = false, unique = true)
     private String login;
 
+    @NotEmpty
+    @Size(min=6, max = 255)
+    @Column(name="password", nullable = false)
     private String password;
 
+    @NotEmpty
+    @Email
+    @Column(name="email", nullable = false, unique = true)
     private String email;
 
+    @NotEmpty
+    @Size(min=6, max = 255)
     // Only one field because test project
+    @Column(name="fio", nullable = false)
     private String fio;
 
     public int getId() {
@@ -76,5 +92,16 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, login, password, email, fio);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", login:'" + login + '\'' +
+                ", password:'" + password + '\'' +
+                ", email:'" + email + '\'' +
+                ", fio:'" + fio + '\'' +
+                '}';
     }
 }
