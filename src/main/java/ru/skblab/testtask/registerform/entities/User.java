@@ -14,34 +14,30 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
-    @NotEmpty
-    @Size(min=6, max = 255)
     @Column(name="login", nullable = false, unique = true)
     private String login;
 
-    @NotEmpty
-    @Size(min=6, max = 255)
     @Column(name="password", nullable = false)
     private String password;
 
-    @NotEmpty
-    @Email
     @Column(name="email", nullable = false, unique = true)
     private String email;
 
-    @NotEmpty
-    @Size(min=6, max = 255)
     // Only one field because test project
     @Column(name="fio", nullable = false)
     private String fio;
 
-    public int getId() {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_Register_Status", nullable = false, columnDefinition = "varchar(255) default 'UNKNOWN'")
+    private UserRegisterStatus userRegisterStatus = UserRegisterStatus.UNKNOWN;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -77,31 +73,41 @@ public class User {
         this.fio = fio;
     }
 
+    public UserRegisterStatus getUserRegisterStatus() {
+        return userRegisterStatus;
+    }
+
+    public void setUserRegisterStatus(UserRegisterStatus userRegisterStatus) {
+        this.userRegisterStatus = userRegisterStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
+        return Objects.equals(id, user.id) &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(fio, user.fio);
+                Objects.equals(fio, user.fio) &&
+                userRegisterStatus == user.userRegisterStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, email, fio);
+        return Objects.hash(id, login, password, email, fio, userRegisterStatus);
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "id:" + id +
-                ", login:'" + login + '\'' +
-                ", password:'" + password + '\'' +
-                ", email:'" + email + '\'' +
-                ", fio:'" + fio + '\'' +
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", fio='" + fio + '\'' +
+                ", userRegisterStatus=" + userRegisterStatus +
                 '}';
     }
 }

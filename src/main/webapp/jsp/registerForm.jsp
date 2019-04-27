@@ -35,6 +35,16 @@
                 <div class="form-group">
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
+                            <label for="confirmPassword" class="input-group-text">Пароль еще раз</label>
+                        </div>
+                        <form:password path="confirmPassword" cssClass="form-control"/>
+                    </div>
+                    <form:errors path="" cssClass="error"/>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
                             <label for="email" class="input-group-text">Email</label>
                         </div>
                         <form:input path="email" cssClass="form-control"/>

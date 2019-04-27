@@ -1,14 +1,16 @@
-package ru.skblab.testtask.registerform.controller;
+package ru.skblab.testtask.registerform.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.skblab.testtask.registerform.dto.UserFormDTO;
 import ru.skblab.testtask.registerform.entities.User;
 import ru.skblab.testtask.registerform.services.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -20,30 +22,30 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.GET})
+    @GetMapping(value = "/register")
     public String getUserRegisterForm(Model model){
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserFormDTO());
         return "registerForm";
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
-    public String saveUser(@Valid @ModelAttribute("user")User user, BindingResult result, Model model){
+    @PostMapping(value = "/register")
+    public String saveUser(@Valid @ModelAttribute("user") UserFormDTO userFormDTO, BindingResult result, Model model){
         if (result.hasErrors()) {
             return "registerForm";
         }
-        userService.save(user);
+        userService.save(userFormDTO.getUser());
         return "index";
     }
 
-    @RequestMapping(value = "/user", method = {RequestMethod.GET})
+    @GetMapping(value = "/user")
     @ResponseBody
-    public String getAllUsers(){
-        return userService.findAll().toString();
+    public Iterable<User> getAllUsers(){
+        return userService.findAll();
     }
 
-    @RequestMapping(value = "/user/{id}", method = {RequestMethod.GET})
+    @GetMapping(value = "/user/{id}")
     @ResponseBody
-    public String getAllUsers(@PathVariable("id") int userId){
-        return userService.findById(userId).toString();
+    public Optional<User> getAllUsers(@PathVariable("id") int userId){
+        return userService.findById(userId);
     }
 }
