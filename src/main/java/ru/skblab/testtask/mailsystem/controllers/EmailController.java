@@ -26,6 +26,7 @@ public class EmailController {
         this.emailService = emailService;
     }
 
+    // ToDo Throws 500 - connection timeout -1, can't connect to mail system in port
     @PostMapping(value = "/sendEmail/user")
     public ResponseEntity<Integer> sendToUser(@RequestBody Map<String, String> emailInfo){
         Email email = new Email();

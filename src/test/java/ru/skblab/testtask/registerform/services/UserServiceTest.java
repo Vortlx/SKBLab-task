@@ -1,8 +1,5 @@
 package ru.skblab.testtask.registerform.services;
 
-import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,10 +9,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.skblab.testtask.registerform.dao.UserDAO;
 import ru.skblab.testtask.registerform.entities.User;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class UserServiceTest{

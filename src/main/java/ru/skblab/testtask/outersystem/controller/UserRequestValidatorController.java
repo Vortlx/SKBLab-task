@@ -1,12 +1,13 @@
 package ru.skblab.testtask.outersystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.skblab.testtask.messagingapi.entities.Message;
 import ru.skblab.testtask.outersystem.service.UserRequestValidator;
+
+import java.util.Random;
 
 @RestController
 public class UserRequestValidatorController {
@@ -18,9 +19,20 @@ public class UserRequestValidatorController {
         this.userRequestValidatorService = userRequestValidatorService;
     }
 
-    @RequestMapping(name="/check/user", method = {RequestMethod.GET})
+    @PostMapping(name="/check/user")
     public Boolean checkNewUserRequest(@RequestBody Message input){
+        // Some user validation logic
+
+        if(shouldSleep()){
+            try{
+                Thread.sleep(10000);
+            } catch (Exception e){}
+        }
 
         return userRequestValidatorService.validateUserRequest();
+    }
+
+    private boolean shouldSleep(){
+        return new Random().nextInt(10) <= 3;
     }
 }

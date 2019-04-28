@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 
+// ToDo Create jar library
 @Entity
 @Table(name = "emails")
 public class Email {

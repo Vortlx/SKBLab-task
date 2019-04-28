@@ -1,7 +1,6 @@
 package ru.skblab.testtask.outersystem.service;
 
 import org.springframework.stereotype.Service;
-import ru.skblab.testtask.outersystem.service.UserRequestValidator;
 
 import java.util.Random;
 
