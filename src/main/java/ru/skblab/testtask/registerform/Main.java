@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.skblab.testtask.registerform.services.UserService;
 
 @SpringBootApplication
 @ComponentScan("ru.skblab.testtask.registerform")
+@EnableScheduling
 public class Main {
 
     @Autowired

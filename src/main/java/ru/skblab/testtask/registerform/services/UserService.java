@@ -8,6 +8,10 @@ public interface UserService {
 
     Iterable<User> findAll();
 
+    User findOneInUnknownState();
+
+    void activateUser(User user, int connectionTimeout, int readTimeout, String outerSystemURI);
+
     Optional<User> findById(Integer id);
 
     User save(User user);

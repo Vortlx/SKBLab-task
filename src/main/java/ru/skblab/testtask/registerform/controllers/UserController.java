@@ -14,6 +14,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.skblab.testtask.messagingapi.entities.Message;
 import ru.skblab.testtask.messagingapi.entities.Operation;
+import ru.skblab.testtask.registerform.Utils;
 import ru.skblab.testtask.registerform.dto.UserFormDTO;
 import ru.skblab.testtask.registerform.entities.User;
 import ru.skblab.testtask.registerform.entities.UserRegisterStatus;
@@ -53,29 +54,10 @@ public class UserController {
             return "registerForm";
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode userJson = mapper.convertValue(userFormDTO.getUser(), JsonNode.class);
-
-        Message message = new Message(userJson, Operation.CHECKING);
         User user = userFormDTO.getUser();
-
-        RestTemplate restTemplate = getRestTemplate(CONNECTION_TIMEOUT, READ_TIMEOUT);
-        try{
-            ResponseEntity response = restTemplate.postForEntity(OUTER_SYSTEM_URI, message, String.class);
-            if(response.hasBody()){
-                boolean userAccepted = Boolean.parseBoolean((String)response.getBody());
-                if(userAccepted){
-                    user.setUserRegisterStatus(UserRegisterStatus.ACCEPTED);
-                } else {
-                    user.setUserRegisterStatus(UserRegisterStatus.DENIED);
-                }
-            }
-        } catch (RestClientException e){
-            e.printStackTrace();
-        } finally {
-            userService.save(user);
-            return "index";
-        }
+        userService.activateUser(user, CONNECTION_TIMEOUT, READ_TIMEOUT, OUTER_SYSTEM_URI);
+        userService.save(user);
+        return "index";
     }
 
     @GetMapping(value = "/user")
@@ -88,14 +70,5 @@ public class UserController {
     @ResponseBody
     public Optional<User> getAllUsers(@PathVariable("id") int userId){
         return userService.findById(userId);
-    }
-
-    // ToDo Write via spring bean
-    private RestTemplate getRestTemplate(int connectionTimeout, int readTimeout){
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(connectionTimeout);
-        requestFactory.setReadTimeout(readTimeout);
-
-        return new RestTemplate(requestFactory);
     }
 }
